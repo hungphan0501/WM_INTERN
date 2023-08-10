@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.14.3</version> <!-- Phiên bản mới nhất tại thời điểm viết hướng dẫn -->
+            <version>1.14.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-htmlunit-driver -->
         <dependency>
@@ -91,6 +91,13 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>3.141.59</version> <!-- Phiên bản có thể thay đổi -->
+        </dependency>
+
+        <!--Spring Actuator là công cụ để giám xác ứng dụng trên môi trường mà không cần phải đụng vào code
+          + nó cung cấp thông tin về ứng dụng , trạng thái và các dữ liệu liên quan của ứng dụng-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
 
@@ -118,7 +125,6 @@
                     <finalName>${project.build.finalName}</finalName>
                 </configuration>
             </plugin>
-            <!-- Spring Boot Configuration Processor Plugin -->
 
         </plugins>
     </build>

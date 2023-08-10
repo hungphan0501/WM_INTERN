@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mysql-container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: login_demo
+
+  spring-boot-app:
+    image: openjdk:11-jre-slim
+    volumes:
+      - ./target/demo-app.jar:/demo-app.jar
+    depends_on:
+      - mysql-container
+    command: ["java", "-jar", "/demo-app.jar"]

@@ -1,0 +1,35 @@
+2023-08-08 14:38:01,697  ERROR  - Lỗi xảy ra trong quá trình xử lý: {}
+java.lang.ArithmeticException: / by zero
+	at com.example.demo.controller.TestErrorLogger.testErrorLog(TestErrorLogger.java:21)
+
+2023-08-08 14:39:24,663  ERROR  - Lỗi Hibernate: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped
+
+2023-08-08 14:39:24,668  ERROR  - Lỗi toàn cục: Transaction silently rolled back because it has been marked as rollback-only
+org.springframework.transaction.UnexpectedRollbackException: Transaction silently rolled back because it has been marked as rollback-only
+
+2023-08-08 16:40:48,172  ERROR  - Lỗi Hibernate: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped
+
+2023-08-08 16:40:48,225  ERROR  - Lỗi toàn cục: Transaction silently rolled back because it has been marked as rollback-only
+org.springframework.transaction.UnexpectedRollbackException: Transaction silently rolled back because it has been marked as rollback-only
+
+2023-08-09 10:55:49,904  ERROR  - Lỗi toàn cục: Content type 'text/plain;charset=UTF-8' not supported
+org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'text/plain;charset=UTF-8' not supported
+
+2023-08-09 10:56:16,864  ERROR  - Lỗi Hibernate: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped [SELECT t FROM NonExistingEntity t]
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: NonExistingEntity is not mapped
+
+
+2023-08-09 16:46:32,016  ERROR  - Lỗi toàn cục: The driver executable does not exist: C:\Users\hungp\Downloads\chromedriver_win64\chromedriver.exe
+
+java.lang.IllegalStateException: The driver executable does not exist: C:\Users\hungp\Downloads\chromedriver_win64\chromedriver.exe
+2023-08-09 16:46:40,344  ERROR  - Lỗi toàn cục: The driver executable does not exist: C:\Users\hungp\Downloads\chromedriver_win64\chromedriver.exe
+
+java.lang.IllegalStateException: The driver executable does not exist: C:\Users\hungp\Downloads\chromedriver_win64\chromedriver.exe

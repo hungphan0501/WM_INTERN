@@ -1,19 +1,44 @@
 version: '3'
 services:
-  mysql-container:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  mysqldb:
+    image: "mysql:8.0.26"
+    restart: always
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
       MYSQL_DATABASE: login_demo
+    volumes:
+      - mysqldb_data:/var/lib/mysql
 
-  spring-boot-app:
-    image: openjdk:11-jre-slim
+  redis:
+    image: redis:7.0.5-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - redis_data:/data
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     volumes:
       - ./target/demo-app.jar:/demo-app.jar
+    ports:
+      - "8080:8080"
     depends_on:
-      - mysql-container
-    command: ["java", "-jar", "/demo-app.jar"]
+      - mysqldb
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/login_demo?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ''
+
+
+volumes:
+  mysqldb_data:   # Định nghĩa volume cho MySQL
+  redis_data:     # Định nghĩa volume cho Redis

@@ -1,4 +1,4 @@
-# Sử dụng hình ảnh MySQL 8.0 làm cơ sở
+# Sử dụng hình ảnh OpenJDK 8 làm cơ sở
 FROM openjdk:8-jdk-alpine
 WORKDIR /
 ENV PORT 8080

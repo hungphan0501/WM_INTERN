@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.config.JwtTokenProvider;
+import com.example.demo.config.jwt.JwtTokenProvider;
 import com.example.demo.dto.LoginResponse;
-import com.example.demo.dto.TokenEntType;
 import com.example.demo.dto.UserRegister;
-import com.example.demo.dto.UserRequest;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.slf4j.Logger;

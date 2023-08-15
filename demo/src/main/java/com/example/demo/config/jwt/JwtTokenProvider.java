@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.config.jwt;
 
 import com.example.demo.dto.DeviceEntType;
 import com.example.demo.dto.TokenEntType;
@@ -25,6 +25,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .setSubject(username)
+                .claim("tokenType","login")
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
@@ -39,12 +40,13 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expirationDate;
 
-        if (oldToken != null) {
+        if (oldToken != null && oldToken.startsWith("Bearer ")) {
+            String cleanToken = oldToken.replace("Bearer ", "");
             // Kiểm tra và gia hạn token cũ nếu có
-            if (validateToken(oldToken)) {
+            if (validateToken(cleanToken,"device")) {
                 Claims oldTokenClaims = Jwts.parser()
                         .setSigningKey(jwtConfig.getSecretKey())
-                        .parseClaimsJws(oldToken)
+                        .parseClaimsJws(cleanToken)
                         .getBody();
                 expirationDate = oldTokenClaims.getExpiration();
             } else {
@@ -63,6 +65,7 @@ public class JwtTokenProvider {
 
         String token = Jwts.builder()
                 .setClaims(claims)
+                .claim("tokenType","device")
                 .claim("deviceId", deviceId)
                 .claim("deviceType", deviceType)
                 .claim("deviceUserId", deviceUserId)
@@ -83,13 +86,29 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, String tokenType) {
         try {
-            Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(token);
+            Claims claims = Jwts.parser()
+                    .setSigningKey(jwtConfig.getSecretKey())
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            String actualTokenType = claims.get("tokenType", String.class);
+
+            if (!tokenType.equals(actualTokenType)) {
+                return false; // Loại token không khớp
+            }
+
+            Date expirationDate = claims.getExpiration();
+            if (expirationDate == null || expirationDate.before(new Date())) {
+                return false; // Token đã hết hạn
+            }
             return true;
         } catch (Exception e) {
             return false;
         }
     }
+
+
 }
 

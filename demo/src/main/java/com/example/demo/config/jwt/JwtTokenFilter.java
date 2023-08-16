@@ -1,5 +1,6 @@
 package com.example.demo.config.jwt;
 
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -25,6 +27,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private JwtConfig jwtConfig;
 
     private final UserDetailsService userDetailsService;
+    @Autowired
+    UserService userService;
 
     public JwtTokenFilter(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -42,19 +46,38 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = header.substring(7);
 
         try {
-            Claims claims = Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(token).getBody();
-            String username = claims.getSubject();
+            if (isValidToken(token)) {
+                Claims claims = Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(token).getBody();
+                Long userId = claims.get("userId", Long.class);
+                Date expirationDate = claims.getExpiration();
 
-            if (username != null) {
-                User userDetails = (User) userDetailsService.loadUserByUsername(username);
+                if (expirationDate == null || expirationDate.before(new Date())) {
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    return;
+                }
 
-                if (isValidToken(token, userDetails)) {
+                // Lấy danh sách các đường dẫn không cần xác thực từ bean đã tạo
+                List<String> publicUrlsList = jwtConfig.publicUrlsList();
+
+                // Kiểm tra nếu là các API không yêu cầu user login thì cho phép truy cập
+                if (publicUrlsList.contains(request.getRequestURI())) {
+                    chain.doFilter(request, response);
+                    return;
+                }
+                // Các API cần user login
+                if (userId != null) {
+                    User userDetails = (User) userDetailsService.loadUserByUsername(userService.getUserById(userId).getUsername());
+                    System.out.println("User:   " +userDetails);
                     Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
+            } else {
+                // Handle token validation failure
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                return;
             }
         } catch (Exception e) {
-            // Handle token validation failure
+            // Handle any other exceptions
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return;
         }
@@ -62,27 +85,22 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    private boolean isValidToken(String token, User userDetails) {
+    private boolean isValidToken(String token) {
         try {
             Claims claims = Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(token).getBody();
-            String username = claims.getSubject();
-
-            // Kiểm tra xem token có được phát hành cho người dùng cụ thể không
-            if (!username.equals(userDetails.getUsername())) {
-                return false;
-            }
+            Long userId = claims.get("userId", Long.class);
+            System.out.println("check token userId: " + userId);
 
             // Kiểm tra hạn sử dụng của token
             Date expirationDate = claims.getExpiration();
             if (expirationDate == null || expirationDate.before(new Date())) {
                 return false;
             }
-
-            // Thêm các kiểm tra khác nếu cần
-
             return true;
         } catch (Exception e) {
             return false;
         }
     }
+
+
 }

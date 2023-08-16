@@ -79,3 +79,38 @@ org.springframework.web.bind.MissingRequestHeaderException: Missing request head
 2023-08-14 17:41:44,532  ERROR  - Lỗi toàn cục: Missing request header 'Authorization' for method parameter of type String
 
 org.springframework.web.bind.MissingRequestHeaderException: Missing request header 'Authorization' for method parameter of type String
+2023-08-15 14:57:11,991  ERROR  - Lỗi toàn cục: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+2023-08-15 14:57:28,140  ERROR  - Lỗi toàn cục: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+2023-08-15 14:59:19,679  ERROR  - Lỗi toàn cục: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+2023-08-15 15:00:08,824  ERROR  - Lỗi toàn cục: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+2023-08-15 15:01:23,764  ERROR  - Lỗi toàn cục: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value; nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Long` from String "user123": not a valid Long value
+ at [Source: (PushbackInputStream); line: 4, column: 13] (through reference chain: com.example.demo.dto.DeviceEntType["userId"])

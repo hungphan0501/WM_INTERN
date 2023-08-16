@@ -1,6 +1,5 @@
 package com.example.demo.config;
 
-import com.example.demo.config.jwt.CustomAuthenticationSuccessHandler;
 import com.example.demo.config.jwt.JwtTokenFilter;
 import com.example.demo.config.jwt.JwtTokenProvider;
 import com.example.demo.service.CustomUserDetailsService;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -46,26 +44,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-				.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
-				.antMatchers("/api/auth/login","/token").permitAll() // Cho phép truy cập API đăng nhập
-				.antMatchers("/admin/**").hasRole("ADMIN") // Yêu cầu quyền ADMIN cho các API /admin/**
+				.antMatchers("/api/auth/login","/api/auth/register", "/banner","/token").permitAll() // Cho phép truy cập API đăng nhập và token
 				.anyRequest().authenticated()
 				.and()
-				.formLogin()
-				.loginPage("/login")
-				.permitAll()
-				.successHandler(new CustomAuthenticationSuccessHandler(jwtTokenProvider))
-				.and()
-				.logout()
-				.invalidateHttpSession(true)
-				.clearAuthentication(true)
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/login?logout")
-				.permitAll()
-				.and()
+				.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling()
 				.accessDeniedPage("/403");
 	}
+
 
 }

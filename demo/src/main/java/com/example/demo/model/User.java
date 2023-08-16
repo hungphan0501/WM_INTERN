@@ -13,6 +13,8 @@ public class User {
 
     @Column(name = "email")
     private String email;
+    @Column(name = "full_name")
+    private String fullName;
 
     @Column(name = "user_name")
     private String username;
@@ -20,9 +22,37 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "address")
+    private String address;
+
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String email, String fullName, String username, String password, String address) {
+        this.email = email;
+        this.fullName = fullName;
+        this.username = username;
+        this.password = password;
+        this.address = address;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public User() {

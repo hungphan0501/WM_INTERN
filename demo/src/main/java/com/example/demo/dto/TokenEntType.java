@@ -6,6 +6,7 @@ public class TokenEntType {
     private String type;
     private long expiredAt;
     private String DeviceId;
+    private UserResponse userLogin;
 
     public TokenEntType(String session, String token, String type, long expiredAt, String deviceId) {
         this.session = session;
@@ -13,6 +14,15 @@ public class TokenEntType {
         this.type = type;
         this.expiredAt = expiredAt;
         DeviceId = deviceId;
+    }
+
+    public TokenEntType(String session, String token, String type, long expiredAt, String deviceId, UserResponse userLogin) {
+        this.session = session;
+        this.token = token;
+        this.type = type;
+        this.expiredAt = expiredAt;
+        DeviceId = deviceId;
+        this.userLogin = userLogin;
     }
 
     public String getSession() {
@@ -43,7 +53,7 @@ public class TokenEntType {
         return expiredAt;
     }
 
-    public void setExpiredAt(int expiredAt) {
+    public void setExpiredAt(long expiredAt) {
         this.expiredAt = expiredAt;
     }
 
@@ -53,5 +63,15 @@ public class TokenEntType {
 
     public void setDeviceId(String deviceId) {
         DeviceId = deviceId;
+    }
+
+
+
+    public UserResponse getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(UserResponse userLogin) {
+        this.userLogin = userLogin;
     }
 }

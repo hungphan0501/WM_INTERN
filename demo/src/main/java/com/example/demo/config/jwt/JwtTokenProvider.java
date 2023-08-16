@@ -2,12 +2,20 @@ package com.example.demo.config.jwt;
 
 import com.example.demo.dto.DeviceEntType;
 import com.example.demo.dto.TokenEntType;
+import com.example.demo.dto.UserResponse;
+import com.example.demo.model.Session;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.SessionService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class JwtTokenProvider {
@@ -15,27 +23,20 @@ public class JwtTokenProvider {
     private final JwtConfig jwtConfig;
 
     @Autowired
+    SessionService sessionService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     public JwtTokenProvider(JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
     }
 
-    public String generateToken(String username) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtConfig.getValidityInMs());
-
-        return Jwts.builder()
-                .setSubject(username)
-                .claim("tokenType","login")
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
-                .compact();
-    }
-
-    public TokenEntType generateDeviceToken(DeviceEntType deviceData, String oldToken) {
+    public TokenEntType generateToken(DeviceEntType deviceData, String oldToken) {
         String deviceId = deviceData.getDeviceId();
         String deviceType = deviceData.getType();
-        String deviceUserId = deviceData.getUserId();
+        Long userId = (deviceData.getUserId() != 0) ? deviceData.getUserId() : null;
 
         Date now = new Date();
         Date expirationDate;
@@ -43,7 +44,7 @@ public class JwtTokenProvider {
         if (oldToken != null && oldToken.startsWith("Bearer ")) {
             String cleanToken = oldToken.replace("Bearer ", "");
             // Kiểm tra và gia hạn token cũ nếu có
-            if (validateToken(cleanToken,"device")) {
+            if (validateToken(cleanToken)) {
                 Claims oldTokenClaims = Jwts.parser()
                         .setSigningKey(jwtConfig.getSecretKey())
                         .parseClaimsJws(cleanToken)
@@ -63,41 +64,56 @@ public class JwtTokenProvider {
                 .setExpiration(expirationDate)
                 .setIssuedAt(now);
 
+
+        Session session = sessionService.getSessionByDeviceId(deviceId);
+        UserResponse userResponse = null;
+        if (session == null) {
+            // Tạo phiên mới nếu không tồn tại
+            session = new Session();
+            session.setDeviceId(deviceId);
+            session.setUserId(userId);
+            sessionService.createSession(session);
+        } else {
+            if (userId != null) {
+                Optional<User> user = userRepository.findById(userId);
+                userResponse = new UserResponse(user.get().getEmail(), user.get().getFullName(), user.get().getAddress());
+                session.setUserId(userId);
+                sessionService.updateSession(session);
+            }
+        }
+
         String token = Jwts.builder()
                 .setClaims(claims)
-                .claim("tokenType","device")
+                .setSubject(session.getId().toString())
+                .claim("session", session.getId())
                 .claim("deviceId", deviceId)
                 .claim("deviceType", deviceType)
-                .claim("deviceUserId", deviceUserId)
+                .claim("userId", userId)
                 .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
                 .compact();
 
-        return new TokenEntType("SessionValue", token, deviceType, expirationDate.getTime(), deviceId);
+        return new TokenEntType(session.getId().toString(), token, deviceType, expirationDate.getTime(), deviceId, userResponse);
     }
 
 
+    public Claims extractAllClaims(String token) throws JwtException {
+        if (token != null && token.startsWith("Bearer ")) {
+            String cleanToken = token.replace("Bearer ", "");
+            return Jwts.parser()
+                    .setSigningKey(jwtConfig.getSecretKey())
+                    .parseClaimsJws(cleanToken)
+                    .getBody();
+        }
+        return null;
 
-    public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtConfig.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject();
     }
 
-    public boolean validateToken(String token, String tokenType) {
+    public boolean validateToken(String token) {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(jwtConfig.getSecretKey())
                     .parseClaimsJws(token)
                     .getBody();
-
-            String actualTokenType = claims.get("tokenType", String.class);
-
-            if (!tokenType.equals(actualTokenType)) {
-                return false; // Loại token không khớp
-            }
 
             Date expirationDate = claims.getExpiration();
             if (expirationDate == null || expirationDate.before(new Date())) {
@@ -109,6 +125,19 @@ public class JwtTokenProvider {
         }
     }
 
+    public Long getUserIdFromToken(String token) {
+        try {
+            if (token != null && token.startsWith("Bearer ")) {
+                String cleanToken = token.replace("Bearer ", "");
+                Claims claims = Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(cleanToken).getBody();
+                Long userId = claims.get("userId", Long.class);
+                return userId;
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }
 

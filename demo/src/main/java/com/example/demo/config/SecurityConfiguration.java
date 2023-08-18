@@ -45,13 +45,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/api/auth/login","/api/auth/register", "/banner","/token").permitAll() // Cho phép truy cập API đăng nhập và token
+				.antMatchers("/api/auth/login", "/api/auth/register", "/banner", "/token","/api/auth/wifi/login","/users").permitAll() // Cho phép truy cập API đăng nhập và token
+				.antMatchers("/api/admin/**").hasRole("ADMIN")
+				.antMatchers("/api/customer/**").hasRole("CUSTOMER")
+				.antMatchers("/api/user/**").hasRole("USER")
+				.antMatchers("/api/info").authenticated()
 				.anyRequest().authenticated()
 				.and()
 				.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling()
 				.accessDeniedPage("/403");
 	}
+
 
 
 }

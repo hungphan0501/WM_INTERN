@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Session;
+import com.example.demo.entity.Session;
 import com.example.demo.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.User;
+import com.example.demo.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface ProjectRepository extends JpaRepository<Project,Long> {
 
-    User findByUsername(String username);
+    Project findByName(String name);
 }

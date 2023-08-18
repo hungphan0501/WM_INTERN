@@ -1,35 +1,20 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.Device;
-import com.example.demo.entity.User;
-
-public class TokenEntType {
+public class TokenResponse {
     private String session;
     private String token;
     private String type;
     private long expiredAt;
-    private Device device;
-    private User user;
+    private String deviceId;
+    private long userId;
 
-    public TokenEntType(String session, String token, String type, long expiredAt, Device device, User user) {
+    public TokenResponse(String session, String token, String type, long expiredAt, String deviceId, long userId) {
         this.session = session;
         this.token = token;
         this.type = type;
         this.expiredAt = expiredAt;
-        this.device = device;
-        this.user = user;
-    }
-
-    public Device getDevice() {
-        return device;
-    }
-
-    public void setDevice(Device device) {
-        this.device = device;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+        this.deviceId = deviceId;
+        this.userId = userId;
     }
 
     public String getSession() {
@@ -64,8 +49,19 @@ public class TokenEntType {
         this.expiredAt = expiredAt;
     }
 
-    public User getUser() {
-        return user;
+    public String getDeviceId() {
+        return deviceId;
     }
 
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 }

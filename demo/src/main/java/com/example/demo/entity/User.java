@@ -1,7 +1,8 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "user")
@@ -25,10 +26,26 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
 
+    private Collection<Role> roles;
+
+    public User(){}
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+    public User(  String username, String password, Collection<Role> roles) {
+        super();
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public User(String email, String fullName, String username, String password, String address) {
@@ -53,10 +70,6 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public User() {
-
     }
 
     public Long getId() {
@@ -89,6 +102,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.example.demo.config.jwt.JwtConfig;
 import com.example.demo.config.jwt.JwtTokenProvider;
 import com.example.demo.dto.DeviceEntType;
 import com.example.demo.dto.TokenEntType;
+import com.example.demo.dto.TokenResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class TokenController {
                                                  @RequestHeader(value = "Authorization", required = false) String token) {
 
         try {
-            TokenEntType currentToken = jwtTokenProvider.generateToken(deviceData, token);
+            TokenResponse currentToken = jwtTokenProvider.generateToken(deviceData, token);
             if (currentToken != null) {
                 return ResponseEntity.ok(currentToken);
             } else {
@@ -37,7 +38,7 @@ public class TokenController {
         } catch (Exception e) {
             if (e instanceof ExpiredJwtException) {
                 // Xử lý ngoại lệ hết hạn token
-                TokenEntType newToken = jwtTokenProvider.generateToken(deviceData, null);
+                TokenResponse newToken = jwtTokenProvider.generateToken(deviceData, null);
                 if (newToken != null) {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body("Token has expired. New token generated.");
@@ -55,7 +56,7 @@ public class TokenController {
 
     @GetMapping("/banner")
     public String getBanner() {
-        return "This i a banner";
+        return "This is a banner";
     }
 
 

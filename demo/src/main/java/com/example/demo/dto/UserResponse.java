@@ -1,14 +1,24 @@
 package com.example.demo.dto;
 
 public class UserResponse {
+    private String username;
     private String email;
     private String fullName;
     private String address;
 
-    public UserResponse(String email, String fullName, String address) {
+    public UserResponse(String username,String email, String fullName, String address) {
+        this.username=username;
         this.email = email;
         this.fullName = fullName;
         this.address = address;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

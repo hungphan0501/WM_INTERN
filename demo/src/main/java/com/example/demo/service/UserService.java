@@ -34,4 +34,9 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
+    public boolean checkUserRole(Long userId, String roleName) {
+        User user = userRepository.findById(userId).orElse(null);
+        return user != null && user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals(roleName));
+    }
 }

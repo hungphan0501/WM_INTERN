@@ -52,7 +52,7 @@ public class ProjectController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project not found.");
             }
 
-            if(deviceService.findByName(deviceDto.getDeviceName()) == null) {
+            if (deviceService.findByName(deviceDto.getDeviceName()) == null) {
                 Device device = new Device();
                 device.setDeviceId(deviceService.generateUniqueDeviceId());
                 device.setDeviceName(deviceDto.getDeviceName());
@@ -71,11 +71,66 @@ public class ProjectController {
                 responseJson.put("projectId", project.getId());
                 return ResponseEntity.ok(responseJson.toString());
             }
-           return ResponseEntity.badRequest().body("Device already exists");
+            return ResponseEntity.badRequest().body("Device already exists");
 
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while creating the device.");
+        }
+    }
+
+    @DeleteMapping("/delete/{projectId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteProject(@PathVariable("projectId") Long projectId) {
+        try {
+            String message = "";
+            boolean isDelete = false;
+            Project project = projectService.findById(projectId);
+            if (project != null) {
+                projectService.delete(project);
+                message = "Delete project successfully";
+                isDelete = true;
+            } else {
+                message = "Project is not exists";
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("projectId", (projectId != null) ? projectId : 0);
+            jsonObject.put("message", message);
+            jsonObject.put("isDelete", isDelete);
+            return ResponseEntity.ok(jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while delete device.");
+        }
+    }
+
+    @DeleteMapping("/{projectId}/device/delete/{deviceId}")
+    @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
+    public ResponseEntity<?> deleteDevice(@PathVariable("projectId") Long projectId, @PathVariable("deviceId") String deviceId) {
+        try {
+            String message = "";
+            boolean isDelete = false;
+            Project project = projectService.findById(projectId);
+            if (project != null) {
+                Device device = deviceService.findById(deviceId);
+                if (device != null) {
+                    deviceService.delete(device);
+                    message = "Delete device successfully";
+                    isDelete = true;
+                } else {
+                    message = "Device is not exists";
+                }
+            } else {
+                message = "Project is not exists";
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("deviceId", (deviceId != null) ? deviceId : 0);
+            jsonObject.put("message", message);
+            jsonObject.put("isDelete", isDelete);
+            return ResponseEntity.ok(jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while delete device.");
         }
     }
 

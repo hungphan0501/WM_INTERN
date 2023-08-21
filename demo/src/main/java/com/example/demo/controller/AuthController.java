@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +47,6 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody UserRequest user, @RequestHeader(value = "Authorization", required = false) String token) {
         try {
             Claims claims = jwtTokenProvider.extractAllClaims(token);
-
             Long sessionId = claims.get("session", Long.class);
             String deviceId = claims.get("deviceId", String.class);
             String deviceType = claims.get("deviceType", String.class);
@@ -54,15 +55,11 @@ public class AuthController {
             Session currentSession = null;
             if (session.isPresent()) {
                 currentSession = session.get();
-
             }
             if (currentSession != null) {
                 User currentUser = userService.getUserByUsername(user.getUsername());
                 if (currentUser != null && currentUser.getPassword().equals(user.getPassword())) {
-                    // Kiểm tra vai trò của currentUser
-                    boolean isUser = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
-                            .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER"));
-                    if (!isUser) {
+                    if (userService.checkUserRole(currentUser.getId(), "ROLE_ADMIN") || userService.checkUserRole(currentUser.getId(), "ROLE_CUSTOMER")) {
                         DeviceEntType data = new DeviceEntType();
                         data.setUserId(currentUser.getId());
                         data.setDeviceId(deviceId);
@@ -71,7 +68,6 @@ public class AuthController {
                         loginLogger.info("Đăng nhập hệ thống thành công: idUser={}, thời gian={}", user.getUsername(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                         return ResponseEntity.ok(newToken);
                     } else {
-                        // Người dùng có vai trò USER, trả về lỗi
                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
                     }
                 }

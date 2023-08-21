@@ -2,7 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.config.jwt.JwtTokenFilter;
 import com.example.demo.config.jwt.JwtTokenProvider;
-import com.example.demo.service.CustomUserDetailsService;
+import com.example.demo.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +29,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Autowired
-	private CustomUserDetailsService userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(); // Sử dụng BCryptPasswordEncoder để mã hóa mật khẩu
+		return new BCryptPasswordEncoder();
 	}
 
 	@Override

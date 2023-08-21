@@ -32,3 +32,15 @@ Caused by: java.lang.StackOverflowError: null
 2023-08-17 16:39:43,221  ERROR  - Lỗi toàn cục: No converter found for return value of type: class org.springframework.boot.configurationprocessor.json.JSONObject
 
 org.springframework.http.converter.HttpMessageNotWritableException: No converter found for return value of type: class org.springframework.boot.configurationprocessor.json.JSONObject
+2023-08-18 16:41:20,387  ERROR  - Lỗi toàn cục: Request method 'GET' not supported
+
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported
+2023-08-18 16:42:38,008  ERROR  - Lỗi toàn cục: Request method 'GET' not supported
+
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported
+2023-08-18 16:43:14,518  ERROR  - Lỗi toàn cục: Request method 'GET' not supported
+
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported
+2023-08-18 16:43:36,099  ERROR  - Lỗi toàn cục: Request method 'GET' not supported
+
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported

@@ -26,11 +26,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         User user = userRepository.findByUsername(username);
         if(user == null) {
-            throw new UsernameNotFoundException("Invalid username or password." +username);
+            throw new UsernameNotFoundException("Invalid username." +username);
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
+        System.out.println("Role: " +roles);
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
@@ -38,3 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return authorities;
     }
 }
+
+//sẽ có 5 customer khác nhau với 5 level khác nhau
+
+

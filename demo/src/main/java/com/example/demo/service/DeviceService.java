@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Device;
+import com.example.demo.entity.Project;
 import com.example.demo.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -38,4 +40,12 @@ public class DeviceService {
         return deviceId;
     }
 
+    public List<Device> getAllDeviceOfProject(Project project){
+        return deviceRepository.getAllByProject(project);
+    }
+
+    @Transactional
+    public void delete(Device device) {
+         deviceRepository.delete(device);
+    }
 }

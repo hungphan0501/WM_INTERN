@@ -28,4 +28,10 @@ public class ProjectService {
     public Project findByName(String name) {
         return projectRepository.findByName(name);
     }
+
+
+    @Transactional
+    public void delete(Project project) {
+        projectRepository.delete(project);
+    }
 }

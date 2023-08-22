@@ -40,6 +40,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 }
 
-//sẽ có 5 customer khác nhau với 5 level khác nhau
-
 

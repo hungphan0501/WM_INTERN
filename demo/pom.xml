@@ -109,8 +109,9 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>3.1.1</version>
+            <version>2.9.0</version> <!-- Hoặc phiên bản phù hợp với JDK của bạn -->
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -81,11 +81,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
                 .compact();
         tokenCache.addToken(token);
-        Device device = deviceRepository.findById(deviceId).orElse(null);
-        User user = userService.getUserById(userId);
-        TokenEntType tokenEntType = new TokenEntType(session.getId().toString(), token, deviceType, expirationDate.getTime(), device, user);
-
-        return new TokenResponse(tokenEntType.getSession(), tokenEntType.getToken(), tokenEntType.getType(), tokenEntType.getExpiredAt(), tokenEntType.getDevice().getDeviceId(), (tokenEntType.getUser() != null ? tokenEntType.getUser().getId() : 0));
+        return new TokenResponse(session.getId().toString(), token, deviceType, expirationDate.getTime(), deviceId, userId);
     }
 
 

@@ -26,6 +26,9 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "level")
+    private int level;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
@@ -48,12 +51,14 @@ public class User {
         this.roles = roles;
     }
 
-    public User(String email, String fullName, String username, String password, String address) {
+    public User(String email, String fullName, String username, String password,Collection<Role> roles, String address, int level) {
         this.email = email;
         this.fullName = fullName;
         this.username = username;
         this.password = password;
+        this.roles =roles;
         this.address = address;
+        this.level = level;
     }
 
     public String getFullName() {
@@ -109,6 +114,14 @@ public class User {
     }
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     @Override

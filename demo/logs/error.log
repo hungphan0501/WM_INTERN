@@ -44,3 +44,84 @@ org.springframework.web.HttpRequestMethodNotSupportedException: Request method '
 2023-08-18 16:43:36,099  ERROR  - Lỗi toàn cục: Request method 'GET' not supported
 
 org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported
+2023-08-21 10:52:25,778  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 10:52:53,592  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 10:53:32,932  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 10:54:59,422  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 10:55:07,836  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 10:57:26,676  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:05:08,461  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:06:04,045  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:06:29,022  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:07:55,108  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:09:31,642  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:11:47,117  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:12:09,695  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:14:05,027  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:14:12,596  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:19:22,673  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:21:05,308  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:22:32,640  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:24:47,276  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:25:24,655  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:26:21,627  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 11:39:06,737  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 16:43:46,467  ERROR  - Lỗi toàn cục: Access is denied
+
+org.springframework.security.access.AccessDeniedException: Access is denied
+2023-08-21 16:44:23,748  ERROR  - Lỗi toàn cục: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null
+
+java.lang.NullPointerException: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null
+2023-08-21 16:45:27,031  ERROR  - Lỗi toàn cục: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null
+
+java.lang.NullPointerException: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null
+2023-08-21 16:46:42,441  ERROR  - Lỗi toàn cục: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null
+
+java.lang.NullPointerException: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null
+2023-08-21 16:50:04,001  ERROR  - Lỗi toàn cục: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null
+
+java.lang.NullPointerException: Cannot invoke "com.example.demo.entity.User.getLevel()" because "user" is null

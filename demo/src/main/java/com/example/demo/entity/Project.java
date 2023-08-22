@@ -23,8 +23,6 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Device> devices;
 
-    @ManyToMany
-    private List<User> managers;
 
     public Project(String name, String title, String logo) {
         this.name = name;
@@ -72,14 +70,6 @@ public class Project {
 
     public void setDevices(List<Device> devices) {
         this.devices = devices;
-    }
-
-    public List<User> getManagers() {
-        return managers;
-    }
-
-    public void setManagers(List<User> managers) {
-        this.managers = managers;
     }
 }
 

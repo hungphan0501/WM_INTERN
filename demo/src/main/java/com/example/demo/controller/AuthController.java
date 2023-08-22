@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.config.jwt.JwtTokenProvider;
 import com.example.demo.dto.*;
-import com.example.demo.entity.Device;
 import com.example.demo.entity.Session;
 import com.example.demo.entity.User;
 import com.example.demo.service.DeviceService;
@@ -14,15 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -58,7 +53,7 @@ public class AuthController {
             }
             if (currentSession != null) {
                 User currentUser = userService.getUserByUsername(user.getUsername());
-                if (currentUser != null && currentUser.getPassword().equals(user.getPassword())) {
+                if (userService.login(currentUser.getUsername(),user.getPassword())) {
                     if (userService.checkUserRole(currentUser.getId(), "ROLE_ADMIN") || userService.checkUserRole(currentUser.getId(), "ROLE_CUSTOMER")) {
                         DeviceEntType data = new DeviceEntType();
                         data.setUserId(currentUser.getId());
@@ -96,20 +91,13 @@ public class AuthController {
             }
             if (currentSession != null) {
                 User currentUser = userService.getUserByUsername(user.getUsername());
-                if (currentUser != null && currentUser.getPassword().equals(user.getPassword())) {
+                if (userService.login(currentUser.getUsername(),user.getPassword())) {
                     DeviceEntType data = new DeviceEntType();
                     data.setUserId(currentUser.getId());
                     data.setDeviceId(deviceId);
                     data.setType(deviceType);
                     TokenResponse newToken = jwtTokenProvider.generateToken(data, token);
 
-                    Device device = deviceService.findById(deviceId);
-                    List<User> users = device.getUsers();
-                    if (!users.contains(currentUser)) {
-                        users.add(currentUser);
-                        device.setUsers(users);
-                        deviceService.updateDevice(device);
-                    }
                     loginLogger.info("Đăng nhập wifi thành công: idUser={}, thời gian={}", user.getUsername(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                     return ResponseEntity.ok(newToken);
                 }
@@ -122,14 +110,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> test(@RequestBody User user) {
+    public ResponseEntity<?> test(@RequestBody UserRequest user) {
         try {
             User currentUser = userService.getUserByUsername(user.getUsername());
             if (currentUser == null) {
                 if (!user.getUsername().equals("") && !user.getPassword().equals("")) {
                     Date date = new Date();
-                    User user1 = userService.save(new User(user.getEmail(), user.getFullName(), user.getUsername(), user.getPassword(), user.getAddress()));
-                    UserRegister ur = new UserRegister(user1, date, true);
+                    userService.save(user);
+                    UserResponse userResponse = new UserResponse(user.getUsername(),user.getEmail(),user.getFullName(),user.getAddress());
+                    UserRegister ur = new UserRegister(userResponse, date, true);
                     return ResponseEntity.ok(ur);
                 }
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Username and password cannot be empty");
@@ -140,5 +129,7 @@ public class AuthController {
                     .body("An error occurred during register");
         }
     }
+
+
 
 }

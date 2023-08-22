@@ -25,8 +25,8 @@ public class DeviceService {
         return deviceRepository.save(device);
     }
 
-    public Device findById(String id) {
-        return deviceRepository.findById(id).orElse(null);
+    public Device findByDeviceId(String id) {
+        return deviceRepository.findByDeviceId(id);
     }
 
     public Device findByName(String name) {

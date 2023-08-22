@@ -5,15 +5,15 @@ import com.example.demo.entity.User;
 import java.util.Date;
 
 public class UserRegister {
-    private User user;
+    private UserResponse user;
     private Date createAt;
     private boolean statusCreate;
 
-    public User getUser() {
+    public UserResponse getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserResponse user) {
         this.user = user;
     }
 
@@ -33,7 +33,7 @@ public class UserRegister {
         this.statusCreate = statusCreate;
     }
 
-    public UserRegister(User user, Date createAt, boolean statusCreate) {
+    public UserRegister(UserResponse user, Date createAt, boolean statusCreate) {
         this.user = user;
         this.createAt = createAt;
         this.statusCreate = statusCreate;

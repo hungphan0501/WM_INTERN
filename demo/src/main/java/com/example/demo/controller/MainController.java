@@ -11,7 +11,6 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,12 +35,12 @@ public class MainController {
     @GetMapping("/info")
     public ResponseEntity<?> getUserInfo(@RequestHeader(value = "Authorization") String token) {
         Long userId = jwtTokenProvider.getUserIdFromToken(token);
-        if(userId != null){
+        if (userId != null) {
             User user = userService.getUserById(userId);
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-            UserResponse userResponse = new UserResponse(user.getUsername(),user.getEmail(),user.getFullName(),user.getAddress());
+            UserResponse userResponse = new UserResponse(user.getUsername(), user.getEmail(), user.getFullName(), user.getAddress());
             return ResponseEntity.ok(userResponse);
         }
         return ResponseEntity.badRequest().body("error");
@@ -49,21 +48,20 @@ public class MainController {
     }
 
     @GetMapping("/project/{projectId}/users")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
-    public ResponseEntity<?> getAllUserUseWifiOfProject(@PathVariable("projectId") Long projectId){
+    public ResponseEntity<?> getAllUserUseWifiOfProject(@PathVariable("projectId") Long projectId) {
         try {
             Project project = projectService.findById(projectId);
-            List<User> users= new ArrayList<>();
-            if(project!=null) {
+            List<UserResponse> users = new ArrayList<>();
+            if (project != null) {
                 List<Device> deviceList = deviceService.getAllDeviceOfProject(project);
-                if(deviceList !=null) {
-                    for(Device device : deviceList) {
-                        users.addAll(device.getUsers());
+                if (deviceList != null) {
+                    for (Device device : deviceList) {
+                        users.add(new UserResponse(device.getUser().getUsername(), device.getUser().getEmail(), device.getUser().getFullName(), device.getUser().getAddress()));
                     }
                 }
             }
             return ResponseEntity.ok(users);
-        }catch (Exception e) {
+        }  catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error getting all the users using the project's wifi.");
         }

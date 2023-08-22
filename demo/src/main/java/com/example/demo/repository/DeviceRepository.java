@@ -15,4 +15,6 @@ public interface DeviceRepository extends JpaRepository<Device,String> {
     boolean existsByDeviceId(String id);
 
     List<Device> getAllByProject(Project project);
+
+    Device findByDeviceId(String id);
 }

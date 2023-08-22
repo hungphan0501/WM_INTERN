@@ -37,6 +37,7 @@ public class TokenController {
 
         } catch (Exception e) {
             if (e instanceof ExpiredJwtException) {
+                e.printStackTrace();
                 // Xử lý ngoại lệ hết hạn token
                 TokenResponse newToken = jwtTokenProvider.generateToken(deviceData, null);
                 if (newToken != null) {

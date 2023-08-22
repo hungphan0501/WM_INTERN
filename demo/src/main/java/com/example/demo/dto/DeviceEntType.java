@@ -1,10 +1,8 @@
 package com.example.demo.dto;
 
-import javax.persistence.*;
 import java.util.Date;
 
 public class DeviceEntType {
-    private Long id;
     private String deviceId;
     private Long userId;
     private String deviceName;
@@ -19,15 +17,6 @@ public class DeviceEntType {
     private Date deletedAt;
     private Date expiredAt;
 
-    // Các getter và setter
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDeviceId() {
         return deviceId;
@@ -136,8 +125,7 @@ public class DeviceEntType {
     @Override
     public String toString() {
         return "Device{" +
-                "id=" + id +
-                ", deviceId='" + deviceId + '\'' +
+                "deviceId='" + deviceId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", deviceName='" + deviceName + '\'' +
                 ", os='" + os + '\'' +

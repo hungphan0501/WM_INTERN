@@ -5,12 +5,12 @@ import com.example.demo.service.UserDetailsServiceImpl;
 import com.example.demo.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.Claims;
@@ -30,6 +30,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtConfig jwtConfig;
 
+    @Lazy
     private final UserDetailsServiceImpl userDetailsService;
     @Autowired
     UserService userService;
@@ -59,20 +60,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     return;
                 }
-                // Lấy danh sách các đường dẫn không cần xác thực từ bean đã tạo
                 List<String> publicUrlsList = jwtConfig.publicUrlsList();
-
-                // Kiểm tra nếu là các API không yêu cầu user login thì cho phép truy cập
                 if (publicUrlsList.contains(request.getRequestURI())) {
                     chain.doFilter(request, response);
                     return;
                 }
-                // Các API cần user login
                 if (userId != null) {
                     User userDetails = (User) userDetailsService.loadUserByUsername(userService.getUserById(userId).getUsername());
                     Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-//                     Kiểm tra nếu token không phải là token mới nhất
+                    System.out.println(authentication.getPrincipal());
                     if (!token.equals(tokenCache.getLatestToken())) {
                         response.setStatus(HttpStatus.UNAUTHORIZED.value());
                         return;
@@ -84,13 +81,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException e) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return;
-
         } catch (Exception e) {
-            // Handle any other exceptions
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return;
         }
-
         chain.doFilter(request, response);
     }
 

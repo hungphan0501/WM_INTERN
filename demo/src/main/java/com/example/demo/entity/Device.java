@@ -1,50 +1,87 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "device")
 public class Device {
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "device_id")
     private String deviceId;
+    @OneToOne
+    private User user;
     @Column(name = "device_name")
     private String deviceName;
-    @Column(name = "device_type")
-    private String deviceType;
-    @Column(name = "ip_address")
-    private String ipAddress;
-    @Column(name = "mac_address")
-    private String macAddress;
-    @Column(name = "is_connected")
-    private boolean isConnected;
+    @Column(name = "os")
+    private String os;
+    @Column(name = "os_version")
+    private String osVersion;
+    @Column(name = "app_version")
+    private String appVersion;
+    @Column(name = "network")
+    private String network;
+    @Column(name = "type")
+    private String type;
+    @Column(name = "status")
+    private String status;
+    @Column(name = "create_at")
+    private Date createdAt;
+    @Column(name = "update_at")
+    private Date updatedAt;
+    @Column(name = "delete_at")
+    private Date deletedAt;
+    @Column(name = "expired_at")
+    private Date expiredAt;
+
     @ManyToOne
     private Project project;
-    @ManyToMany
-    private List<User> users;
-    // Constructors, getters, setters, toString, etc.
 
-    // Constructors
     public Device() {
     }
 
-    public Device(String deviceId, String deviceName, String deviceType, String ipAddress, String macAddress, boolean isConnected) {
+    public Device(String deviceId, User user, String deviceName, String os, String osVersion, String appVersion, String network, String type, String status, Date createdAt, Date updatedAt, Date deletedAt, Date expiredAt, Project project) {
         this.deviceId = deviceId;
+        this.user = user;
         this.deviceName = deviceName;
-        this.deviceType = deviceType;
-        this.ipAddress = ipAddress;
-        this.macAddress = macAddress;
-        this.isConnected = isConnected;
+        this.os = os;
+        this.osVersion = osVersion;
+        this.appVersion = appVersion;
+        this.network = network;
+        this.type = type;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.expiredAt = expiredAt;
+        this.project = project;
     }
 
-    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getDeviceId() {
         return deviceId;
     }
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDeviceName() {
@@ -55,65 +92,83 @@ public class Device {
         this.deviceName = deviceName;
     }
 
-    public String getDeviceType() {
-        return deviceType;
+    public String getOs() {
+        return os;
     }
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
+    public void setOs(String os) {
+        this.os = os;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    public String getOsVersion() {
+        return osVersion;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+    public void setOsVersion(String osVersion) {
+        this.osVersion = osVersion;
     }
 
-    public String getMacAddress() {
-        return macAddress;
+    public String getAppVersion() {
+        return appVersion;
     }
 
-    public void setMacAddress(String macAddress) {
-        this.macAddress = macAddress;
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
     }
 
-    public boolean isConnected() {
-        return isConnected;
+    public String getNetwork() {
+        return network;
     }
 
-    public void setConnected(boolean connected) {
-        isConnected = connected;
+    public void setNetwork(String network) {
+        this.network = network;
     }
 
-    public Project getProject() {
-        return project;
+    public String getType() {
+        return type;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public String getStatus() {
+        return status;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Device{" +
-                "deviceId='" + deviceId + '\'' +
-                ", deviceName='" + deviceName + '\'' +
-                ", deviceType='" + deviceType + '\'' +
-                ", ipAddress='" + ipAddress + '\'' +
-                ", macAddress='" + macAddress + '\'' +
-                ", isConnected=" + isConnected +
-                ", project=" + project +
-                ", users=" + users +
-                '}';
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public Date getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(Date expiredAt) {
+        this.expiredAt = expiredAt;
     }
 }
